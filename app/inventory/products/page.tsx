@@ -63,14 +63,29 @@ export default function Page() {
             </tr>
           ):"" }
           {data.map((data:any)=>(
-            <tr key={data.id}>
-              <td>{data.id}</td>
-              <td>{data.name}</td>
-              <td>{data.price}</td>
-              <td>{data.description}</td>
-              <td><Link href={`/inventory/products/${data.id}`}>在庫処理</Link></td>
-              <td><button>更新・削除</button></td>
-            </tr>
+            <> 
+              {/* TODO:更新・削除ボタンを押したら表示しない */}
+              <tr key={data.id}>
+                <td>{data.id}</td>
+                <td><input type='text' defaultValue={data.name}/></td>
+                <td><input type='number' defaultValue={data.price}/></td>
+                <td><input type='text' defaultValue={data.description}/></td>
+                <td></td>
+                <td>
+                  <button>更新する</button>
+                  <button>削除する</button>
+                </td>
+              </tr>
+              {/* TODO:更新・削除ボタンを押したら表示させる */}
+              <tr key={data.id}>
+                <td>{data.id}</td>
+                <td>{data.name}</td>
+                <td>{data.price}</td>
+                <td>{data.description}</td>
+                <td><Link href={`/inventory/products/${data.id}`}>在庫処理</Link></td>
+                <td><button>更新・削除</button></td>
+              </tr>
+            </>
           ))}
         </tbody>
       </table>
