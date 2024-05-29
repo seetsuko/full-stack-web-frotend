@@ -16,14 +16,26 @@ export default function Page() {
   const [ data, setData ] = useState<Array<ProductsData>>([])
   const [ shownNewRow, setShownNewRow ] = useState(false)
 
-useEffect(()=>{
-  setData(productsData)
-},[])
+  useEffect(()=>{
+    setData(productsData)
+  },[])
+
+  const handleShowNewRow = () =>  { 
+    setShownNewRow(true)
+  }
+
+  const handleAddCancel = () =>  { 
+    setShownNewRow(false)
+  }
+
+  const handleAdd = () =>  { 
+    setShownNewRow(false)
+  }
 
   return (
     <div>
       <h2>商品一覧</h2>
-      <button>商品を追加する</button>
+      <button onClick={ handleShowNewRow }>商品を追加する</button>
       <table>
         <thead>
           <tr>
@@ -45,8 +57,8 @@ useEffect(()=>{
               <td><input type='text'/></td>
               <td></td>
               <td>
-                <button>キャンセル</button>
-                <button>登録する</button>
+                <button onClick={ handleAddCancel }>キャンセル</button>
+                <button onClick={ handleAdd }>登録する</button>
               </td>
             </tr>
           ):"" }
