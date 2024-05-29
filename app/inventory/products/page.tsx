@@ -15,6 +15,7 @@ export default function Page() {
 
   const [ data, setData ] = useState<Array<ProductsData>>([])
   const [ shownNewRow, setShownNewRow ] = useState(false)
+  const [ editingRow, setEditingRow ] = useState(0)
 
   useEffect(()=>{
     setData(productsData)
@@ -30,6 +31,10 @@ export default function Page() {
 
   const handleAdd = () =>  { 
     setShownNewRow(false)
+  }
+
+  const handleEditRow = (id: number) =>  { 
+    setEditingRow(id)
   }
 
   return (
@@ -63,29 +68,28 @@ export default function Page() {
             </tr>
           ):"" }
           {data.map((data:any)=>(
-            <> 
-              {/* TODO:更新・削除ボタンを押されてない商品をラベル表示させる */}
-              <tr key={data.id}>
-                <td>{data.id}</td>
-                <td><input type='text' defaultValue={data.name}/></td>
-                <td><input type='number' defaultValue={data.price}/></td>
-                <td><input type='text' defaultValue={data.description}/></td>
-                <td></td>
-                <td>
-                  <button>更新する</button>
-                  <button>削除する</button>
-                </td>
-              </tr>
-              {/* TODO:更新・削除ボタンを押された商品を入力フォームで表示させる */}
-              <tr key={data.id}>
-                <td>{data.id}</td>
-                <td>{data.name}</td>
-                <td>{data.price}</td>
-                <td>{data.description}</td>
-                <td><Link href={`/inventory/products/${data.id}`}>在庫処理</Link></td>
-                <td><button>更新・削除</button></td>
-              </tr>
-            </>
+            editingRow === data.id ? (
+                <tr key={data.id}>
+                  <td>{data.id}</td>
+                  <td><input type='text' defaultValue={data.name}/></td>
+                  <td><input type='number' defaultValue={data.price}/></td>
+                  <td><input type='text' defaultValue={data.description}/></td>
+                  <td></td>
+                  <td>
+                    <button>更新する</button>
+                    <button>削除する</button>
+                  </td>
+                </tr>
+              ):(
+                <tr key={data.id}>
+                  <td>{data.id}</td>
+                  <td>{data.name}</td>
+                  <td>{data.price}</td>
+                  <td>{data.description}</td>
+                  <td><Link href={`/inventory/products/${data.id}`}>在庫処理</Link></td>
+                  <td><button onClick={() => handleEditRow(data.id)}>更新・削除</button></td>
+                </tr>
+            )
           ))}
         </tbody>
       </table>
