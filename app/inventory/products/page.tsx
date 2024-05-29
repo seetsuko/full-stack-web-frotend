@@ -64,7 +64,7 @@ export default function Page() {
           ):"" }
           {data.map((data:any)=>(
             <> 
-              {/* TODO:更新・削除ボタンを押したら表示しない */}
+              {/* TODO:更新・削除ボタンを押されてない商品をラベル表示させる */}
               <tr key={data.id}>
                 <td>{data.id}</td>
                 <td><input type='text' defaultValue={data.name}/></td>
@@ -76,7 +76,7 @@ export default function Page() {
                   <button>削除する</button>
                 </td>
               </tr>
-              {/* TODO:更新・削除ボタンを押したら表示させる */}
+              {/* TODO:更新・削除ボタンを押された商品を入力フォームで表示させる */}
               <tr key={data.id}>
                 <td>{data.id}</td>
                 <td>{data.name}</td>
