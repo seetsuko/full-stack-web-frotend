@@ -14,6 +14,7 @@ type ProductsData = {
 export default function Page() {
 
   const [ data, setData ] = useState<Array<ProductsData>>([])
+  const [ shownNewRow, setShownNewRow ] = useState(false)
 
 useEffect(()=>{
   setData(productsData)
@@ -36,6 +37,7 @@ useEffect(()=>{
         </thead>
 
         <tbody>
+          {shownNewRow ? (
             <tr>
               <td></td>
               <td><input type='text'/></td>
@@ -47,6 +49,7 @@ useEffect(()=>{
                 <button>登録する</button>
               </td>
             </tr>
+          ):"" }
           {data.map((data:any)=>(
             <tr key={data.id}>
               <td>{data.id}</td>
