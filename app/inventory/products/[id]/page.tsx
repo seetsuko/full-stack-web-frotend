@@ -1,6 +1,12 @@
+'use client'
+
+import { useState } from "react";
+
 export default function Page() {
 
   const params = { id: 1 }
+
+  const [ data, setData ] = useState()
 
   return (
     <>
