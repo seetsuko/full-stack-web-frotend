@@ -1,4 +1,7 @@
 export default function Page() {
+
+  const params = { id: 1 }
+
   return (
     <>
       <h2>商品在庫管理</h2>
