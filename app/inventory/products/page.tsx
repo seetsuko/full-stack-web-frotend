@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import Link from "next/link"
 import productsData from "./sample/dummy_products.json"
 
@@ -11,15 +11,34 @@ type ProductsData = {
   description: string
 }
 
+type InputData = {
+  id: string
+  name: string
+  price: string
+  description: string
+}
+
 export default function Page() {
 
   const [ data, setData ] = useState<Array<ProductsData>>([])
+  const [ input, setInput ] = useState<InputData>({
+    id: "",
+    name: "",
+    price: "",
+    description: "",
+  }) 
   const [ shownNewRow, setShownNewRow ] = useState(false)
   const [ editingRow, setEditingRow ] = useState(0)
 
   useEffect(()=>{
     setData(productsData)
   },[])
+
+  const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target
+    setInput({...input, [name]: value})
+  }
+
 
   const handleShowNewRow = () =>  { 
     setShownNewRow(true)
@@ -34,7 +53,23 @@ export default function Page() {
   }
 
   const handleEditRow = (id: number) =>  { 
+    setShownNewRow(false)
     setEditingRow(id)
+    const selectedProduct: ProductsData = data.find((v) => v.id === id) as ProductsData
+    setInput({
+      id: id.toString(),
+      name: selectedProduct.name,
+      price: selectedProduct.price.toString(),
+      description: selectedProduct.description,
+    })
+  }
+
+  const handleEdit = () =>{
+    setEditingRow(0)
+  }
+
+  const handleDelete = () =>{
+    setEditingRow(0)
   }
 
   return (
@@ -57,9 +92,9 @@ export default function Page() {
           {shownNewRow ? (
             <tr>
               <td></td>
-              <td><input type='text'/></td>
-              <td><input type='number'/></td>
-              <td><input type='text'/></td>
+              <td><input type='text' name="name" onChange={handleInput}/></td>
+              <td><input type='number' name="price" onChange={handleInput}/></td>
+              <td><input type='text' name="description" onChange={handleInput}/></td>
               <td></td>
               <td>
                 <button onClick={ handleAddCancel }>キャンセル</button>
@@ -71,13 +106,13 @@ export default function Page() {
             editingRow === data.id ? (
                 <tr key={data.id}>
                   <td>{data.id}</td>
-                  <td><input type='text' defaultValue={data.name}/></td>
-                  <td><input type='number' defaultValue={data.price}/></td>
-                  <td><input type='text' defaultValue={data.description}/></td>
+                  <td><input type='text' value={data.name} name="name" onChange={handleInput}/></td>
+                  <td><input type='number' value={data.price} name="price" onChange={handleInput}/></td>
+                  <td><input type='text' value={data.description} name="description" onChange={handleInput}/></td>
                   <td></td>
                   <td>
-                    <button>更新する</button>
-                    <button>削除する</button>
+                    <button onClick={handleEdit}>更新する</button>
+                    <button onClick={handleDelete}>削除する</button>
                   </td>
                 </tr>
               ):(
