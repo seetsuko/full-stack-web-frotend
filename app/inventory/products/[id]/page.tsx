@@ -1,12 +1,45 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import productsData from "../sample/dummy_products.json"
+import inventryData from "../sample/dummy_inventories.json"
+
+type ProductData = {
+  id: number
+  name: string
+  price: number
+  description: string
+}
+
+type InventoryData = {
+  id: number
+  type: string
+  date: string
+  unit: number
+  quantity: number
+  price: number
+  inventory: number
+}
 
 export default function Page() {
 
   const params = { id: 1 }
 
-  const [ data, setData ] = useState()
+  const [ product, setProduct ] = useState<ProductData>({
+    id: 0, name: "", price: 0, description: ""
+  })
+  const [ data, setData ] = useState<Array<InventoryData>>([])
+
+  useEffect(() => {
+    const selectedProduct = productsData.find(v => v.id == params.id)?? {
+      id: 0,
+      name: "",
+      price: 0,
+      description: "",
+    }
+    setProduct(selectedProduct)
+    setData(inventryData)
+  }, [])
 
   return (
     <>
